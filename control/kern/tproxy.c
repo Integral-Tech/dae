@@ -1874,12 +1874,8 @@ int local_tcp_sockops(struct bpf_sock_ops *skops)
 	switch (skops->op) {
 	case BPF_SOCK_OPS_PASSIVE_ESTABLISHED_CB: // dae sockets
 	{
-		struct tuples_key rev_tuple = { .l4proto = IPPROTO_TCP,
-						.sport = tuple.dport,
-						.dport = tuple.sport };
-
-		__builtin_memcpy(&rev_tuple.sip, &tuple.dip, IPV6_BYTE_LENGTH);
-		__builtin_memcpy(&rev_tuple.dip, &tuple.sip, IPV6_BYTE_LENGTH);
+		struct tuples_key rev_tuple = { 0 };
+		copy_reversed_tuples(&tuple, &rev_tuple);
 
 		struct routing_result *routing_result =
 			bpf_map_lookup_elem(&routing_tuples_map, &rev_tuple);
