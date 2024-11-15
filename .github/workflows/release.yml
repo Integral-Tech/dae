@@ -16,6 +16,14 @@ jobs:
         goos: [ linux ]
         goarch: [ arm64, 386, riscv64, mips64, mips64le, mipsle, mips ]
         include:
+          # BEGIN Linux ARM64 v8 v9
+          - goos: linux
+            goarch: arm64
+            goarm64: v8.0
+          - goos: linux
+            goarch: arm64
+            goarm64: v9.0
+          # END Linux ARM64 v8 v9
           # BEGIN Linux ARM 5 6 7
           - goos: linux
             goarch: arm
@@ -45,6 +53,7 @@ jobs:
       GOOS: ${{ matrix.goos }}
       GOARCH: ${{ matrix.goarch }}
       GOARM: ${{ matrix.goarm }}
+      GOARM64: ${{ matrix.goarm64 }}
       GOAMD64: ${{ matrix.goamd64 }}
       CGO_ENABLED: 0
 
